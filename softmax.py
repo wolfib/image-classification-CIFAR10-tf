@@ -24,7 +24,7 @@ max_steps = 1000
 data_sets = data_helpers.load_data()
 
 # -----------------------------------------------------------------------------
-# Prepare the Tensorflow graph
+# Prepare the TensorFlow graph
 # (We're only defining the graph here, no actual calculations taking place)
 # -----------------------------------------------------------------------------
 
@@ -53,7 +53,7 @@ correct_prediction = tf.equal(tf.argmax(logits, 1), labels_placeholder)
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 # -----------------------------------------------------------------------------
-# Run the Tensorflow graph
+# Run the TensorFlow graph
 # -----------------------------------------------------------------------------
 
 with tf.Session() as sess:
@@ -68,16 +68,15 @@ with tf.Session() as sess:
     images_batch = data_sets['images_train'][indices]
     labels_batch = data_sets['labels_train'][indices]
 
+    # Periodically print out the model's current accuracy
+    if i % 100 == 0:
+      train_accuracy = sess.run(accuracy, feed_dict={
+        images_placeholder: images_batch, labels_placeholder: labels_batch})
+      print('Step {:5d}: training accuracy {:g}'.format(i, train_accuracy))
+
     # Perform a single training step
     sess.run(train_step, feed_dict={images_placeholder: images_batch,
       labels_placeholder: labels_batch})
-
-    # Periodically print out the model's current accuracy
-    if (i + 1) % 100 == 0:
-      train_accuracy = sess.run(accuracy, feed_dict={
-        images_placeholder: images_batch, labels_placeholder: labels_batch})
-      print('Step {:5d}: training accuracy {:g}'.format(i + 1, train_accuracy))
-
 
   # After finishing the training, evaluate on the test set
   test_accuracy = sess.run(accuracy, feed_dict={
