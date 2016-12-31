@@ -3,5 +3,5 @@
 This is the code for the blog post ['How to Build a Simple Image Recognition System Using TensorFlow']().
 
 - Softmax Classifier
-- (upcoming: Fully Connected Neural Network)
+- Fully Connected 2-Layer Neural Network
 - (upcoming: Convolutional Neural Network)
