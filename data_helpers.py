@@ -1,13 +1,17 @@
 '''Imports CIFAR-10 data.'''
 
 import numpy as np
-import cPickle as pickle
+import pickle
+import sys
 
 def load_CIFAR10_batch(filename):
   '''load data from single CIFAR-10 file'''
 
   with open(filename, 'rb') as f:
-    dict = pickle.load(f)
+    if sys.version_info[0] < 3:
+      dict = pickle.load(f)
+    else:
+      dict = pickle.load(f, encoding='latin1')
     x = dict['data']
     y = dict['labels']
     x = x.astype(float)
@@ -19,7 +23,7 @@ def load_data():
 
   xs = []
   ys = []
-  for i in xrange(1, 6):
+  for i in range(1, 6):
     filename = 'cifar-10-batches-py/data_batch_' + str(i)
     X, Y = load_CIFAR10_batch(filename)
     xs.append(X)
@@ -69,7 +73,7 @@ def reshape_data(data_dict):
 def gen_batch(data, batch_size, num_iter):
   data = np.array(data)
   index = len(data)
-  for i in xrange(num_iter):
+  for i in range(num_iter):
     index += batch_size
     if (index + batch_size > len(data)):
       index = 0

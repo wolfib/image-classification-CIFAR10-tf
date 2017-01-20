@@ -70,7 +70,7 @@ train_step = two_layer_fc.training(loss, FLAGS.learning_rate)
 accuracy = two_layer_fc.evaluation(logits, labels_placeholder)
 
 # Operation merging summary data for TensorBoard
-summary = tf.merge_all_summaries()
+summary = tf.summary.merge_all()
 
 # Define saver to save model state at checkpoints
 saver = tf.train.Saver()
@@ -81,12 +81,12 @@ saver = tf.train.Saver()
 
 with tf.Session() as sess:
   # Initialize variables and create summary-writer
-  sess.run(tf.initialize_all_variables())
-  summary_writer = tf.train.SummaryWriter(logdir, sess.graph)
+  sess.run(tf.global_variables_initializer())
+  summary_writer = tf.summary.FileWriter(logdir, sess.graph)
 
   # Generate input data batches
   zipped_data = zip(data_sets['images_train'], data_sets['labels_train'])
-  batches = data_helpers.gen_batch(zipped_data, FLAGS.batch_size,
+  batches = data_helpers.gen_batch(list(zipped_data), FLAGS.batch_size,
     FLAGS.max_steps)
 
   for i in range(FLAGS.max_steps):

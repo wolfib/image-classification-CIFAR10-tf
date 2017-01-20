@@ -58,7 +58,7 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 with tf.Session() as sess:
   # Initialize variables
-  sess.run(tf.initialize_all_variables())
+  sess.run(tf.global_variables_initializer())
 
   # Repeat max_steps times
   for i in range(max_steps):

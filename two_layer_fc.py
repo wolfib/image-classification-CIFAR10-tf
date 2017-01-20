@@ -28,7 +28,6 @@ def inference(images, image_pixels, hidden_units, classes, reg_constant=0):
     weights = tf.get_variable(
       name='weights',
       shape=[image_pixels, hidden_units],
-      # initializer=tf.truncated_normal_initializer(stddev=1.0 / np.sqrt(float(image_pixels)), seed=1234),
       initializer=tf.truncated_normal_initializer(
         stddev=1.0 / np.sqrt(float(image_pixels))),
       regularizer=tf.contrib.layers.l2_regularizer(reg_constant)
@@ -53,7 +52,7 @@ def inference(images, image_pixels, hidden_units, classes, reg_constant=0):
     logits = tf.matmul(hidden, weights) + biases
 
     # Define summery-operation for 'logits'-variable
-    tf.histogram_summary('logits', logits)
+    tf.summary.histogram('logits', logits)
 
   return logits
 
@@ -80,7 +79,7 @@ def loss(logits, labels):
       tf.GraphKeys.REGULARIZATION_LOSSES))
 
     # Add a scalar summary for the loss
-    tf.scalar_summary('loss', loss)
+    tf.summary.scalar('loss', loss)
 
   return loss
 
@@ -128,6 +127,6 @@ def evaluation(logits, labels):
     accuracy =  tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
     # Summary operation for the accuracy
-    tf.scalar_summary('train_accuracy', accuracy)
+    tf.summary.scalar('train_accuracy', accuracy)
 
   return accuracy
