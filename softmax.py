@@ -40,8 +40,8 @@ biases = tf.Variable(tf.zeros([10]))
 logits = tf.matmul(images_placeholder, weights) + biases
 
 # Define the loss function
-loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits,
-  labels_placeholder))
+loss = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=logits,
+  labels=labels_placeholder))
 
 # Define the training operation
 train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
