@@ -72,7 +72,7 @@ def loss(logits, labels):
     # Operation to determine the cross entropy between logits and labels
     cross_entropy = tf.reduce_mean(
       tf.nn.sparse_softmax_cross_entropy_with_logits(
-        logits, labels, name='cross_entropy'))
+        logits=logits, labels=labels, name='cross_entropy'))
 
     # Operation for the loss function
     loss = cross_entropy + tf.add_n(tf.get_collection(
